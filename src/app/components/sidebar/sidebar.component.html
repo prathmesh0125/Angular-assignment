@@ -1,0 +1,104 @@
+<!-- Sidebar Toggle Button for small screens -->
+<button
+  (click)="toggleSidebar()"
+  aria-controls="sidebar"
+  type="button"
+  class="inline-flex items-center p-2 mt-2 ms-3 text-xl text-black font-bold rounded-lg lg:hidden"
+>
+  &#9776;
+  <!-- Using a hamburger menu symbol instead of icon -->
+</button>
+
+<!-- Sidebar -->
+<aside
+  id="sidebar"
+  class="fixed top-0 left-0 z-40 w-64 h-screen bg-white transition-transform transform"
+  [ngClass]="{
+    'translate-x-0': isOpen,
+    '-translate-x-full': !isOpen,
+    'lg:translate-x-0': true
+  }"
+  aria-label="Sidebar"
+>
+  <div class="h-full px-3 py-4 overflow-y-auto">
+    <div class="flex items-center mx-4 my-3 mb-5">
+      <img src="/favicon.ico" class="h-6 me-3 sm:h-7" alt="Logo" />
+      <span
+        class="self-center text-xl my-8 font-semibold whitespace-nowrap text-blue-700"
+      >
+        AI CV
+      </span>
+    </div>
+
+    <ul class="font-medium m-4">
+      <div class="flex flex-col gap-8">
+        <li
+          *ngFor="let link of links; let i = index"
+          class="flex justify-start items-center relative"
+        >
+          <span
+            class="text-2xl"
+            [ngClass]="{ 'text-[#005DFF]': i === 0, 'text-[#ACACAC]': i !== 0 }"
+          >
+            <i [ngClass]="link.icon"></i>
+            <!-- Using a circle symbol instead of icon -->
+          </span>
+          <a
+            [routerLink]="link.href"
+            class="flex items-center p-2 text-[#ACACAC] rounded-lg"
+            [ngClass]="{
+              'text-blue-600 hover:text-blue-600': currentRoute === link.href
+            }"
+            (click)="toggleSidebar()"
+          >
+            <span
+              class="flex-1 text-sm ms-3 whitespace-nowrap hover:text-blue-400"
+              [ngClass]="{ 'font-bold': currentRoute === link.href }"
+            >
+              {{ link.name }}
+            </span>
+          </a>
+          <div
+            *ngIf="currentRoute === link.href"
+            class="absolute -right-7 w-1 h-6 bg-blue-600"
+          ></div>
+        </li>
+      </div>
+
+      <!-- Bottom Links -->
+      <div class="flex flex-col absolute bottom-10 gap-8">
+        <li class="flex justify-center items-center text-[#ACACAC] gap-4">
+          <span class="text-2xl"><i class="fa-solid fa-gear"></i></span>
+          <!-- Using a warning symbol instead of icon -->
+          <a
+            href="#"
+            class="flex-1 text-sm ms-3 whitespace-nowrap hover:text-blue-400 rounded-lg"
+            (click)="toggleSidebar()"
+          >
+            <span class="flex">Settings</span>
+          </a>
+        </li>
+        <li class="flex justify-center items-center text-[#ACACAC]">
+          <span class="text-2xl">
+            <i class="fa-regular fa-message"></i>
+          </span>
+          <!-- Using a cross symbol instead of icon -->
+          <a
+            href="#"
+            class="flex-1 text-sm ms-3 whitespace-nowrap hover:text-blue-400 rounded-lg"
+            (click)="toggleSidebar()"
+          >
+            <span class="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
+          </a>
+        </li>
+      </div>
+    </ul>
+  </div>
+</aside>
+
+<!-- Overlay for small screens -->
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 bg-black opacity-50 lg:hidden"
+  (click)="toggleSidebar()"
+></div>
